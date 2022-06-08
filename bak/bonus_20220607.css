@@ -1,0 +1,241 @@
+/* 수당 계산기 */
+.sudang__calc{
+  max-width: 600px;margin: 0 auto;
+  min-height: 100vh;
+}
+.sudang__calc_top_box{
+  background: #61bce6;
+  height: 130px;
+  padding: 20px 30px 0 30px;
+  position: relative;
+}
+.sudang__calc_top_box .caution{
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;line-height: 1.3;
+  display: block;
+}
+
+.sudang__calc_top_box h2{font-size: 38px;color: #fff;font-weight: 700;
+  margin-bottom: 7px;font-weight: 300;
+}
+.sudang__calc_top_box h2 span{font-weight: 500;}
+.sudang__calc_top_box .down{
+  font-size: 14px;
+  color: #fff;
+  width: auto;margin-top: 15px;
+	position: relative;line-height: normal;
+	padding: 4px 10px;border: 1px solid #fff;  
+}
+.sudang__calc_top_box .down::before{
+	content: "";display: inline-block;width:15px;height: 15px;
+	margin-right: 7px;position: relative;top:2px;
+	background: url(../img/down_ic.svg) no-repeat center/contain;
+}
+.sudang__calc dl dt{font-weight: 700;font-size: 16px;}
+.sudang__calc_dl_box{
+  display: flex;flex-wrap: wrap;margin-bottom: 20px;
+  padding: 0 30px;
+  margin-top: 10px;
+}
+.sudang__calc_input_box{
+  display: flex;justify-content: space-between;
+  width: 50%;
+  height: 72px;
+  align-items: center;
+  margin-top: -1px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+.sudang__calc_input_box:nth-child(odd){
+  padding-right: 20px;
+}
+.sudang__calc_input_box:nth-child(even){
+  padding-left: 20px;
+}
+.sudang__calc_input_box:nth-child(odd)::after{
+  content: "";width: 1px;height: 32px;background-color: #dbe3ee;
+  position: absolute;right: 0;
+}
+
+.sudang__calc_input_box dd{
+  display: flex;flex-direction: column;align-items: flex-end;
+}
+.sudang__calc_input_box input{padding:0 10px;max-width: 90px;text-align: right;border-width: 1px;outline: none;border-radius: 4px;}
+.sudang__calc_input_box .per{position: relative;}
+.sudang__calc_input_box .per input{
+  width: 90px;padding-right: 27px;
+}
+.sudang__calc_input_box .per::after{
+  content: "%";position: absolute;right: 10px;top:50%;transform: translateY(-50%);display: block;
+}
+.sudang__calc_format_price{font-size: 12px;text-align: right;padding-right: 5px;height: 20px;margin-top: 3px;color: #888;}
+
+.sudang__calc_btn_box{
+  display: flex;padding:0 15px;
+}
+.sudang__calc_btn_clear{width: 100%;height: 60px;border:1px solid #61bce6;margin-right: 5px;color: #61bce6;border-radius: 5px;font-weight: 400;background-color: #fff;font-size: 20px;font-family: 'Pretendard'}
+.sudang__calc_btn_calc{width: 100%;height: 60px;background-color: #61bce6;color: #fff;border-radius: 5px;font-weight: 400;font-size: 20px;font-family: 'Pretendard'}
+
+.sudang__calc_result{margin-top: 40px;}
+.sudang__calc_result.on{
+  animation: fade_in 0.3s both;
+  display: block;
+}
+@keyframes fade_in {
+  100%{
+    opacity: 1;
+  }
+}
+.sudang__calc_result_list_li{
+  border-top: 1px solid #ddd;
+}
+.sudang__calc_result_list_info{
+  padding: 15px;display: none;text-align: center;
+  background-color: #fff;
+}
+.sudang__calc_result_list_info h4{
+  color: #111;text-align: center;margin-bottom: 15px;
+}
+.sudang__calc_result_list_info .sudang__calc_result_info_caution{
+  margin-top: 5px;padding:10px;
+}
+.sudang__calc_result_info{
+  display: flex;text-align: center;
+  align-items: center;justify-content: center;
+  background-color: #f5f5f5;
+  padding:10px 0;
+}
+.sudang__calc_result_info dl{
+  font-size: 12px;position: relative;
+  height: 40px;
+  justify-content: center;
+  display: flex;
+  line-height:1.3;
+  flex-direction: column;
+}
+.sudang__calc_result_info dl.calc_price{
+  padding-right: 20px;margin-right: 15px;
+}
+.sudang__calc_result_info dl.calc_price::before{
+  content: "";display: block;width: 1px;height: 20px;background-color: #ccc;
+  transform: rotate(45deg);position: absolute;right:0;top:10px
+}
+.sudang__calc_result_info dl.calc_price::after{
+  content: "";display: block;width: 1px;height: 20px;background-color: #ccc;
+  transform: rotate(-45deg);position: absolute;right:0;top:10px
+}
+
+.sudang__calc_result_info dl.calc_per{padding-right: 0;margin-right: 0;}
+.sudang__calc_result_info dl.calc_per::before,
+.sudang__calc_result_info dl.calc_per::after{
+  display: none;
+}
+.sudang__calc_result.on .sudang__calc_result_info dl.calc_per{
+  padding-right: 25px;margin-right: 10px;
+}
+.sudang__calc_result.on .sudang__calc_result_info dl.calc_per::before{
+  content: "";display: block;width: 16px;height: 1px;background-color: #ccc;
+  position: absolute;right:0;top:16px;
+}
+.sudang__calc_result.on .sudang__calc_result_info dl.calc_per::after{
+  content: "";display: block;width: 16px;height: 1px;background-color: #ccc;
+  position: absolute;right:0;top:23px
+}
+.sudang__calc_result_info dt{font-size: 17px;}
+.sudang__calc_result_info dd{color: #888;font-size: 14px;}
+.sudang__calc_result.on .sudang__calc_result_info dd{font-size: 12px;}
+.sudang__calc_result.on .sudang__calc_result_info.no dd{font-size: 14px;}
+.sudang__calc_result.on .sudang__calc_result_info.no + ul li.point{color: rgb(233, 29, 29);font-weight: 500;}
+.sudang__calc_result.on .sudang__calc_result_info.no dl.calc_per{padding-right: 0;margin-right: 0;}
+.sudang__calc_result.on .sudang__calc_result_info.no dl.calc_per::before,
+.sudang__calc_result.on .sudang__calc_result_info.no dl.calc_per::after{
+  display: none;
+}
+.sudang__calc_result_info .sudang_price{font-size: 17px;font-weight: 500;}
+.sudang__calc_result.on span{font-weight: 700;}
+/*
+.sudang__calc_result_1,
+.sudang__calc_result_2{color: #409b29;}
+.sudang__calc_result_3,
+.sudang__calc_result_4{color: #ec2e2e;}
+.sudang__calc_result_5,
+.sudang__calc_result_6{color: #3843df;}
+*/
+
+.sudang__calc_result_list{
+  display: flex;justify-content: space-between;
+  align-items: center;
+  padding:10px 15px;
+  cursor: pointer;
+}
+.sudang__calc_result_list.green{
+  background-color: #f3fff6;
+}
+.sudang__calc_result_list.red{
+  background-color: #fff3f3;
+}
+.sudang__calc_result_list.blue{
+  background-color: #f3f6ff;
+}
+.sudang__calc_result_list .off_txt{color: #888;font-size: 12px;}
+.sudang__calc_result_list dt{display: flex;align-items: center;}
+.sudang__calc_result_list dt .ic{
+  width: 15px;height: 15px;
+  display: inline-block;margin-right: 10px;position: relative;
+  
+}
+.sudang__calc_result_list dt .ic::before{
+  content: "";width: 100%;height: 1px;background-color: #409b29;
+  position: absolute;left: 0;top: 7px;
+}
+.sudang__calc_result_list dt .ic::after{
+  content: "";width: 1px;height: 100%;background-color: #409b29;
+  position: absolute;left: 7px;top: 0;
+  transform: rotate(0);transition: all 0.2s;
+}
+.sudang__calc_result_list:first-child{border-top: 0;}
+.sudang__calc_result_list_li.total{padding: 15px;display: none;background-color: #7dcb6a;}
+.sudang__calc_result.on .sudang__calc_result_list_li{display: block;}
+.sudang__calc_result_list_li.total dl{cursor:auto;}
+.sudang__calc_result_list_li.total dt{font-weight:bold;font-size:17px;color: #fff;}
+.sudang__calc_result_list_li.total dd{color:#fff;font-weight:bold;font-size:17px;}
+.sudang__calc_result_list_li.on{padding-bottom: 0;}
+.sudang__calc_result_list_li.on .sudang__calc_result_list dt .ic::after{
+  transform: rotate(90deg);
+}
+.sudang__calc_result_list_li.on .sudang__calc_result_list_info{
+  display: block;
+}
+.sudang__calc_result.on .sudang__calc_result_list .off_txt{display: none;}
+.sudang__calc_bottom_caution{
+  padding:5px;
+}
+.sudang__calc_result_info_caution_h4{
+  padding-left: 10px;padding-top: 10px;
+  font-weight: 500;font-size: 13px;
+}
+.sudang__calc_result_info_caution{
+  display: block;text-align: left;
+  color:#888;font-size: 12px;
+  padding: 8px 10px;
+}
+.sudang__calc_result_info_caution li{
+  padding-left: 7px;position: relative;margin-bottom:5px;
+}
+.sudang__calc_result_info_caution li:last-child{margin-bottom:0}
+.sudang__calc_result_info_caution li::before{
+  content: "";width: 2px;height: 2px;background-color: #aaa;
+  position: absolute;left:0;top:7px;
+}
+
+.tbl_basic.sudang__calc_result_info_table tbody td, 
+.tbl_basic.sudang__calc_result_info_table tbody th{
+  padding:5px;
+}
+.tbl_basic.sudang__calc_result_info_table tbody tr.on td{
+  background-color: #fff3f3;font-weight: 500;color: #111;
+}
+
+@media all and (max-width:450px) {
+  .sudang__calc_top_box .caution br{display: block;}
+}
