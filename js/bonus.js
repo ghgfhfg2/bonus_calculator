@@ -212,14 +212,6 @@ const onHiddenCon = (e) => {
 
   const numRegex = /[^\d]/;
 
-  const bonusInfo = (e) => {
-    let listAll = document.querySelectorAll('.sudang__calc_result_list_li');
-    let check = e.parentElement.classList.contains('on');
-    listAll.forEach(el=>el.classList.remove('on'));
-    if(!check){
-      e.parentElement.classList.add('on');
-    }
-  }
 
   const clearResult = () => {
     let dt = document.querySelectorAll('.sudang__calc_result_info dt')
@@ -250,8 +242,13 @@ const onHiddenCon = (e) => {
   }
 
   const maxCheck = (e) => {
-    if(e.value > e.max){
-      e.value = e.max;
+    let val = e.value;
+    if(val.match(/\D/g)){
+      val = val.substr(0,val.length-1)
+      e.value = val
+    }
+    if(e.value > Number(e.max)){
+      e.value = Number(e.max);
     }
   }
 
@@ -282,23 +279,25 @@ const onHiddenCon = (e) => {
     }else{
       document.querySelector(div).innerHTML = '0만원';
     }
-      
+
   }
 
   const onPriceFormat2 = (price) =>{
     let price_txt;
     let uk;
-    let man;
-    price = price ? price : 0;
+    let man;    
+    price = price < 1 ? Math.round(price*100)/100 : price;
     if(price.length <= 4){
-      price_txt = `<span>${price}</span>` + '만원'
+      price_txt = `<span>${commaNumber(price)}</span>` + '만원'
     }else{
       uk = Math.floor(price/10000);
       uk = uk ? `<span>${commaNumber(uk)}</span>`+'억' : '';
-      man = Math.round(price % 10000);
+      man = price % 10000;
+      man = String(man).length > 6 ? Math.round(man) : man;
       man = man > 0 ? `<span>${commaNumber(man)}</span>`+'만' : '';
       price_txt = `${uk}${man}원`
     }
+    price_txt = price ? price_txt : `<span>0</span>원`;
     return price_txt;
   }
 
@@ -340,16 +339,27 @@ const onHiddenCon = (e) => {
     return sudang_5;
   }
 
-  const calcPromotionSudang2 = (total,sudang_mat) => {
+  const calcPromotionSudang2 = (total,sudang2,bunus) => {
     let sudang_6 = 0;
+    let list6 = document.querySelector('.sudang__calc_result_info.list_6');
     let tbl = document.querySelector('.sudang__calc_result_info_table.tbl_4 tbody tr');
+    let perDt = list6.querySelector('.calc_per dt');
+    let per;
+    let price = `${onPriceFormat2(sudang2)}`;
+    price += `<span class="ic_x small"></span>`;
+    price += `<span>${bunus}</span> %`;
+    list6.querySelector('.calc_price dt').innerHTML = price;
     if(total < 1000){
-      sudang_6 = sudang_mat;
+      sudang_6 = sudang2*bunus/100;
+      per = `<span>100</span> %`;
       tbl.classList.add('on');
     }else{
+      per = `<span>0</span> %`;
       tbl.classList.remove('on');
     }
+    perDt.innerHTML = per;
     sudang_6 = sudang_6 > 20 ? 20 : sudang_6;
+    list6.querySelector('.sudang_price').innerHTML = sudang_6 ? `${onPriceFormat2(sudang_6)}` : `<span>0</span>원`;
     return sudang_6;
   }
 
@@ -369,14 +379,18 @@ const onHiddenCon = (e) => {
     return sudadng;
   }
 
-  const calcInfo = (price,per,div) => {
+  const calcInfo = (price,per,div,max) => {
     let divBox = document.querySelector(div);
     let priceBox = divBox.querySelector('.calc_price dt')
     let perBox = divBox.querySelector('.calc_per dt')
-    let sudangBox = divBox.querySelector('.sudang_price')
+    let sudangBox = divBox.querySelector('.sudang_price');
     priceBox.innerHTML = onPriceFormat2(price);
-    perBox.innerHTML = `<span>${per}</span>` + '%'
-    sudangBox.innerHTML = onPriceFormat2(price * per/100);
+    perBox.innerHTML = `<span>${per}</span>` + '%';
+    let calcPrice = price * per/100;
+    if(max){
+      calcPrice = calcPrice >= max ? max : calcPrice;
+    }
+    sudangBox.innerHTML = onPriceFormat2(calcPrice);
   }
 
   const calcInfo2 = (table,div,id) => {
@@ -400,6 +414,18 @@ const onHiddenCon = (e) => {
       }
       tbody += tr;
     })
+    if(!id){
+      let tr = '';
+      tr += `<tr>`
+      tr += `<td>다음</td>`
+      tr += `<td>${table[0].price}만원</td>`
+      if(table[0].rank){
+        tr+= `<td>${table[0].rank}</td>`;  
+      }
+      tr += `<td>${table[0].bonus}만원</td>`
+      tr += `</tr>`
+      tbody += tr;
+    }
     divBox.querySelector('tbody').innerHTML = tbody;
     
   }
@@ -431,39 +457,33 @@ const onHiddenCon = (e) => {
     let bonus_2 = f.bonus_2;
 
     if(!sales_1.value){
-      alert('1대매출을 입력해 주세요');
+      alert('1대 매출을 입력해 주세요');
       f.sales_1.focus();
       return;
     }
     if(!sales_2.value){
-      alert('2대매출을 입력해 주세요');
-      f.sales_2.focus();
-      return;
+      sales_2.value = 0;
     }
     if(!bonus_1.value){
-      alert('추천보너스를 입력해 주세요');
-      f.bonus_1.focus();
-      return;
+      bonus_1.value = 0;
     }
     if(!bonus_2.value){
-      alert('후원보너스를 입력해 주세요');
-      f.bonus_2.focus();
-      return;
+      bonus_2.value = 0;
     }
     clearResult();
     let total_sales = parseInt(sales_1.value) + parseInt(sales_2.value);
 
     sudang_1 = sales_1.value * f.bonus_1.value/100;
     sudang_2 = sales_2.value * f.bonus_2.value/100;
-    sudang_mat = sales_2.value * f.bonus_1.value/100;
+    //sudang_mat = sales_2.value * f.bonus_1.value/100;
     sudang_3 = calcSudang(sudang_3_table,total_sales);
     sudang_4 = calcSudang(sudang_4_table,total_sales);
     sudang_5 = calcPromotionSudang(total_sales,sales_1.value,bonus_1.value);
-    sudang_6 = calcPromotionSudang2(total_sales,sudang_mat);
+    sudang_6 = calcPromotionSudang2(total_sales,sales_2.value,bonus_1.value);
 
 
-    calcInfo(sales_1.value,f.bonus_1.value,'.sudang__calc_result_info.list_1')
-    calcInfo(sales_2.value,f.bonus_2.value,'.sudang__calc_result_info.list_2')
+    calcInfo(sales_1.value,f.bonus_1.value,'.sudang__calc_result_info.list_1',3100)
+    calcInfo(sales_2.value,f.bonus_2.value,'.sudang__calc_result_info.list_2',1550)
     
     
     calcInfo2(sudang_3_table,'.sudang__calc_result_info_table.tbl_1',sudang_3.idx)
@@ -471,7 +491,7 @@ const onHiddenCon = (e) => {
 
 
 
-    calcInfo(sales_2.value,f.bonus_1.value,'.sudang__calc_result_info.list_6')    
+    //calcInfo(sales_2.value,f.bonus_1.value,'.sudang__calc_result_info.list_6')    
 
 
 
@@ -483,8 +503,8 @@ const onHiddenCon = (e) => {
     sudang_2 = sudang_2 ? `${onPriceFormat2(sudang_2)}` : '0만원';
     sudang_3 = `${onPriceFormat2(sudang_3.bonus)}`;
 
-    sudang_5 = `${sudang_5}만원`;
-    sudang_6 = `${sudang_6}만원`;
+    sudang_5 = `${sudang_5.toFixed(2)}만원`;
+    sudang_6 = `${sudang_6.toFixed(2)}만원`;
     
     
     //result_total.innerHTML = sudang_total;
@@ -496,16 +516,33 @@ const onHiddenCon = (e) => {
 
    //직급보너스
    let sudangBox4 = document.querySelector('.sudang__calc_result_info.list_4');  
-   sudangBox4.querySelector('.calc_price dt').innerHTML = `${onPriceFormat2(total_sales)} /&nbsp;<span class="rank">${sudang_4.rank}</span>`;
+   sudangBox4.querySelector('.calc_price dt').innerHTML = `${onPriceFormat2(total_sales)} /&nbsp;<span class="rank">${sudang_4.rank ?? '미달성'}</span>`;
    sudangBox4.querySelector('.sudang_price').innerHTML = onPriceFormat2(sudang_4.bonus); 
+   
+   result_box.classList.add('on');
 
-
-    result_box.classList.add('on')
+   //길이가 긴 li
+   const ulWidth = document.querySelector('.sudang__calc_result > ul').clientWidth
+   const liAll = document.querySelectorAll('.sudang__calc_result_list_li');
+   liAll.forEach(el=>{
+     el.classList.remove('over_width')
+   })
+   liAll.forEach(el=>{
+     let elWidth = el.querySelector('.sudang__calc_result_list').clientWidth + el.querySelector('.sudang__calc_result_list_info').clientWidth
+     if(ulWidth < elWidth){
+       el.classList.add('over_width')
+     }else{
+      el.classList.remove('over_width')
+     }
+   })
 
   }
 
   const commaNumber = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  const uncomma = (x) => {
+      return x.toString().replace(/[^\d]+/g, '');
   }
 
 

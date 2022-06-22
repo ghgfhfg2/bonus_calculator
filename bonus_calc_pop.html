@@ -28,7 +28,7 @@
         <span>미트리</span> 보너스 계산기
       </h2>
       <a class="down" href="../../_ext/template/pc_default/img/office/(metree)compensation_plan.pdf" download>보상플랜 가이드</a>
-
+      <button type="button" class="sudang__calc_close"></button>
     </div>
     <div class="sudang__calc_container">
       <form class="sudang__calc_form" name="sudangCalcFrom" autocomplete="off">
@@ -51,7 +51,7 @@
             <dt>추천 보너스</dt>
             <dd>
               <div class="per">
-                <input type="number" max="10" oninput="maxCheck(this)" name="bonus_1" placeholder="0~10">
+                <input type="text" step="1" min="0" max="10" oninput="maxCheck(this)" name="bonus_1" placeholder="0~10">
               </div>
               <!-- <div class="sudang__calc_format_price average">평균 3~4%</div> -->
             </dd>
@@ -60,7 +60,7 @@
             <dt>후원 보너스</dt>
             <dd>
               <div class="per">
-                <input type="number" max="10" oninput="maxCheck(this)" name="bonus_2" placeholder="0~5">
+                <input type="number" step="1" min="0" max="5" oninput="maxCheck(this)" name="bonus_2" placeholder="0~5">
               </div>
             </dd>
           </dl>
@@ -73,9 +73,9 @@
       <div class="sudang__calc_result">
         <ul>
           <li class="sudang__calc_result_list_li">
-            <dl class="sudang__calc_result_list" onclick="bonusInfo(this)">
-              <dt>
-                <span class="ic" onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_1.html')">?</span>
+            <dl class="sudang__calc_result_list">
+              <dt onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_1.html')">
+                <span class="ic">?</span>
                 추천 보너스
               </dt>
               <dd>
@@ -86,24 +86,23 @@
             <div class="sudang__calc_result_list_info green">
               <div class="sudang__calc_result_info list_1">
                 <dl class="calc_price">
-                  <dt><span>1</span>억 <span>5,000</span>만원</dt>
+                  <dt></dt>
                   <dd>1대 매출</dd>
                 </dl>
                 <span class="ic_x"></span>
                 <dl class="calc_per">
-                  <dt><span>10</span>%</dt>
+                  <dt></dt>
                   <dd>추천 보너스</dd>
                 </dl>
                 <span class="ic_e"></span>
                 <span class="sudang_price">
-                  <span>1,000</span>만원
                 </span>
               </div>
             </div>
           </li>
           <li class="sudang__calc_result_list_li">
-            <dl class="sudang__calc_result_list" onclick="bonusInfo(this)">
-              <dt><span class="ic" onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_2.html')">?</span>후원 보너스</dt>
+            <dl class="sudang__calc_result_list">
+              <dt onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_2.html')"><span class="ic">?</span>후원 보너스</dt>
               <dd>
                 <span class="sudang__calc_cate regular">정회원</span>
                 <span class="sudang__calc_cate p_regular">파워 정회원</span>
@@ -127,7 +126,7 @@
           </li>
           <li class="sudang__calc_result_list_li col">
             <div class="sudang__calc_result_list_div">
-              <dl class="sudang__calc_result_list" onclick="bonusInfo(this)">
+              <dl class="sudang__calc_result_list">
                 <dt><span class="ic" onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_3.html',1)">?</span>장려 보너스</dt>
                 <dd>
                   <span class="sudang__calc_cate p_regular">파워 정회원</span>
@@ -136,12 +135,11 @@
               <div class="sudang__calc_result_list_info red">
                 <div class="sudang__calc_result_info list_3">
                   <dl class="calc_price">
-                    <dt><span>4,400</span>만원</dt>
+                    <dt></dt>
                     <dd>월 매출 금액(1대 매출 + 2대 매출)</dd>
                   </dl>
                   <span class="ic_e"></span>
                   <span class="sudang_price">
-                    <span>1,000</span>만원
                   </span>
                 </div>
               </div>    
@@ -170,8 +168,8 @@
           </li>
           <li class="sudang__calc_result_list_li col">
             <div class="sudang__calc_result_list_div">
-              <dl class="sudang__calc_result_list" onclick="bonusInfo(this)">
-                <dt><span class="ic" onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_4.html',2)">?</span>직급 보너스</dt>
+              <dl class="sudang__calc_result_list">
+                <dt onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_4.html',2)"><span class="ic">?</span>직급 보너스</dt>
                 <dd>
                   <span class="sudang__calc_cate p_regular">파워 정회원</span>
                 </dd>
@@ -184,7 +182,6 @@
                   </dl>
                   <span class="ic_e"></span>
                   <span class="sudang_price">
-                    <span>1,000</span>만원
                   </span>
                 </div>
               </div>    
@@ -214,10 +211,10 @@
             </div>
           </li>
           <li class="sudang__calc_result_list_li">
-            <dl class="sudang__calc_result_list" onclick="bonusInfo(this)">
-              <dt><span class="ic" onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_5.html')">?</span>
+            <dl class="sudang__calc_result_list">
+              <dt onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_5.html')"><span class="ic">?</span>
                 <span>[프로모션]</span>
-                추천 보너스<br>더블</dt>
+                추천 보너스<br> 더블</dt>
               <dd>
                 <span class="sudang__calc_cate regular">정회원</span>
                 <span class="sudang__calc_cate p_regular">파워 정회원</span>
@@ -227,12 +224,12 @@
               <div class="sudang__calc_result_info list_5">
                 <dl class="calc_price">
                   <dt></dt>
-                  <dd>1대 매출 x 추천보너스</dd>
+                  <dd>1대 매출 x 추천 보너스</dd>
                 </dl>
                 <span class="ic_x"></span>
                 <dl class="calc_per">
                   <dt></dt>
-                  <dd>지급비율</dd>
+                  <dd>지급 비율</dd>
                 </dl>
                 <span class="ic_e"></span>
                 <span class="sudang_price"></span>
@@ -276,8 +273,8 @@
             </div>     
           </li>
           <li class="sudang__calc_result_list_li">
-            <dl class="sudang__calc_result_list" onclick="bonusInfo(this)">
-              <dt><span class="ic" onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_6.html')">?</span><span>[프로모션]</span>매칭 보너스</dt>
+            <dl class="sudang__calc_result_list">
+              <dt onclick="onLayer('.sudang__calc_layer','./bonus_pop_info_6.html')"><span class="ic">?</span><span>[프로모션]</span>매칭 보너스</dt>
               <dd>
                 <span class="sudang__calc_cate regular">정회원</span>
                 <span class="sudang__calc_cate p_regular">파워 정회원</span>
@@ -288,12 +285,12 @@
               <div class="sudang__calc_result_info list_6">
                 <dl class="calc_price">
                   <dt></dt>
-                  <dd>2대 매출</dd>
+                  <dd>2대 매출 x 추천 보너스</dd>
                 </dl>
                 <span class="ic_x"></span>
                 <dl class="calc_per">
                   <dt></dt>
-                  <dd>추천 보너스</dd>
+                  <dd>지급 비율</dd>
                 </dl>
                 <span class="ic_e"></span>
                 <span class="sudang_price"></span>
@@ -314,7 +311,7 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>1000만원 미만</td>
+                        <td>1,000만원 미만</td>
                         <td>100%</td>
                       </tr>
                     </tbody>
@@ -342,7 +339,7 @@
         <ul class="sudang__calc_result_info_caution">
           <li>계산 방식을 쉽게 설명하기 위한 예시이며, <strong>실제와 차이</strong>가 있을 수 있습니다.</li>
           <li><strong>[프로모션]</strong>은 <strong>정회원 전환 후 1년</strong>동안 받을 수 있습니다.</li>
-          <li>보너스와 관련된 자세한 사항은 상단의 보상플랜 PDF 다운로드 버튼을 통해 확인 가능합니다.</li>
+          <li>보너스와 관련된 자세한 사항은 상단의 보상플랜 가이드 버튼을 통해 확인 가능합니다.</li>
         </ul>
       </div>
     </div>
